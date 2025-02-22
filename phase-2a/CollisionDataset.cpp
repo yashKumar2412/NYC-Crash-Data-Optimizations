@@ -34,7 +34,7 @@ void CollisionDataset::load_CSV(string file_name) {
 
         #pragma omp for
         for (size_t i = 0; i < lines.size(); i++) {
-            stringstream ss(line);
+            stringstream ss(lines[i]);
             
             string collision_id, crash_date, crash_time, borough, zip_code, latitude, longitude, location, on_street_name, cross_street_name, off_street_name;
             string person_injured, person_killed, pedestrian_injured, pedestrian_killed, cyclist_injured, cyclist_killed, motorist_injured, motorist_killed;
