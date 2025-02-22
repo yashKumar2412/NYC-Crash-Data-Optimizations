@@ -20,9 +20,9 @@ SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${OPENMP_CXX_FLAGS}")
 #target_link_libraries(test OpenMP::OpenMP_CXX)
 
 # Phase 2c
-add_executable(test phase-2c/Main.cpp phase-2c/CollisionDataset.cpp)
-target_link_libraries(test OpenMP::OpenMP_CXX)
+#add_executable(test phase-2c/Main.cpp phase-2c/CollisionDataset.cpp)
+#target_link_libraries(test OpenMP::OpenMP_CXX)
 
-# Phase 3.1
-# add_executable(test src_phase3.1/Main.cpp src_phase3.1/CrashData.cpp)
-# target_link_libraries(test OpenMP::OpenMP_CXX)
+# Phase 3
+add_executable(test phase-3/Main.cpp phase-3/CollisionDataset.cpp)
+target_link_libraries(test OpenMP::OpenMP_CXX)
