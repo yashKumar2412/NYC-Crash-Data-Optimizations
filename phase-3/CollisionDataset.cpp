@@ -3,11 +3,22 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include <omp.h>
 #include <sys/stat.h>
 #include "CollisionDataset.h"
 
 using namespace std;
+
+unordered_map<string, int> borough_map;
+vector<int> borough_encoded;
+
+int encode_borough(const string& b) {
+    if (borough_map.find(b) == borough_map.end()) {
+        borough_map[b] = borough_map.size();  // Assign new integer ID
+    }
+    return borough_map[b];
+}
 
 void CollisionDataset::load_CSV(string file_name) {
     struct stat stat_buf;
@@ -49,6 +60,8 @@ void CollisionDataset::load_CSV(string file_name) {
             getline(ss, crash_time, ',');
 
             getline(ss, borough, ',');
+            int borough_id = encode_borough(borough);  // Encode borough as integer
+
             getline(ss, zip_code, ',');
             getline(ss, latitude, ',');
             getline(ss, longitude, ',');
@@ -85,7 +98,7 @@ void CollisionDataset::load_CSV(string file_name) {
             getline(ss, vehicle_type_code5, ',');
 
             thread_data[thread_id].add_record(
-                collision_id, crash_date, crash_time, borough, zip_code, latitude, longitude, on_street_name, cross_street_name, off_street_name,
+                collision_id, crash_date, crash_time, to_string(borough_id), zip_code, latitude, longitude, on_street_name, cross_street_name, off_street_name,
                 person_injured, person_killed, pedestrian_injured, pedestrian_killed, cyclist_injured, cyclist_killed, motorist_injured, motorist_killed,
                 contributing_factor_vehicle1, contributing_factor_vehicle2, contributing_factor_vehicle3, contributing_factor_vehicle4, contributing_factor_vehicle5,
                 vehicle_type_code1, vehicle_type_code2, vehicle_type_code3, vehicle_type_code4, vehicle_type_code5
@@ -287,6 +300,7 @@ vector<int> CollisionDataset::search_by_zip_code(int zc) {
         }
     }    
 
+    query_result.shrink_to_fit();
     return query_result;
 }
 
@@ -310,6 +324,7 @@ vector<int> CollisionDataset::search_by_injury_ranges(int inj_low, int inj_high)
         }
     }
 
+    query_result.shrink_to_fit();
     return query_result;
 }
 
@@ -333,6 +348,7 @@ vector<int> CollisionDataset::search_by_latitude(float lat) {
         }
     }
 
+    query_result.shrink_to_fit();
     return query_result;
 }
 
@@ -359,11 +375,13 @@ vector<int> CollisionDataset::search_by_date_range(string sd, string ed) {
         }
     }
 
+    query_result.shrink_to_fit();
     return query_result;
 }
 
 vector<int> CollisionDataset::search_by_borough(string b) {
     vector<int> query_result;
+    int borough_id = encode_borough(b);  // Encode borough as integer
 
     #pragma omp parallel
     {
@@ -371,7 +389,7 @@ vector<int> CollisionDataset::search_by_borough(string b) {
 
         #pragma omp for
         for (size_t i = 0; i < collisions.get_size(); i++) {
-            if (collisions.get_borough(i) == b) {
+            if (stoi(collisions.get_borough(i)) == borough_id) {  // Compare with encoded integer
                 thread_results.emplace_back(i);
             }
         }
@@ -382,5 +400,6 @@ vector<int> CollisionDataset::search_by_borough(string b) {
         }
     }
 
+    query_result.shrink_to_fit();
     return query_result;
 }
