@@ -53,7 +53,8 @@ file_mapping = {
     "phase-2a.txt": "2a",
     "phase-2b.txt": "2b",
     "phase-2c.txt": "2c",
-    "phase-3.txt": "3"
+    "phase-3a.txt": "3a",
+    "phase-3b.txt": "3b"
 }
 
 mean_metrics = []
@@ -102,7 +103,7 @@ df_metrics = pd.DataFrame(mean_metrics)
 df_metrics.to_csv(data_file, index=False)
 
 # Set the phase column as categorical for correct plotting order
-df_metrics["Phase"] = pd.Categorical(df_metrics["Phase"], categories=["1", "2a", "2b", "2c", "3"], ordered=True)
+df_metrics["Phase"] = pd.Categorical(df_metrics["Phase"], categories=["1", "2a", "2b", "2c", "3a", "3b"], ordered=True)
 
 # Create a figure with 6 subplots (3 rows, 2 columns) for better visualization
 fig, axes = plt.subplots(3, 2, figsize=(12, 15))

@@ -52,8 +52,10 @@ file_mapping = {
     "threads1.txt": "1",
     "threads2.txt": "2",
     "threads4.txt": "4",
-    "threads6.txt": "6",
-    "threads8.txt": "8"
+    "threads8.txt": "8",
+    "threads16.txt": "16",
+    "threads32.txt": "32",
+    "threads64.txt": "64",
 }
 
 mean_metrics = []
@@ -77,7 +79,7 @@ df_metrics = pd.DataFrame(mean_metrics)
 df_metrics.to_csv(data_file, index=False)
 
 # Set the phase column as categorical for correct plotting order
-df_metrics["Thread Count"] = pd.Categorical(df_metrics["Thread Count"], categories=["1", "2", "4", "6", "8"], ordered=True)
+df_metrics["Thread Count"] = pd.Categorical(df_metrics["Thread Count"], categories=["1", "2", "4", "8", "16", "32", "64"], ordered=True)
 
 # Create a figure with 6 subplots (3 rows, 2 columns) for better visualization
 fig, axes = plt.subplots(3, 2, figsize=(12, 15))
