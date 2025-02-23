@@ -35,13 +35,6 @@ void CollisionDataset::load_CSV(string file_name) {
 
     vector<Collisions> thread_data(thread_count);
 
-     // Reserve space in vectors 
-     size_t estimated_records = file_size / 100;  // Estimate based on average record size
-     for (auto& local_data : thread_data) {
-         local_data.reserve(estimated_records);
-     }
- 
-
     #pragma omp parallel
     {
         int thread_id = omp_get_thread_num();
