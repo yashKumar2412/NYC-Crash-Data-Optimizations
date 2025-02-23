@@ -16,7 +16,7 @@ class Collisions {
         vector<int> crash_date;
         vector<int> crash_time;
         
-        vector<string> borough;
+        vector<int> borough;
         vector<int> zip_code;
         vector<float> latitude;
         vector<float> longitude;
@@ -89,7 +89,6 @@ class Collisions {
             crash_time.emplace_back(format_time(ct));
 
             collision_id.emplace_back(trim_string(id));
-            borough.emplace_back(trim_string(b));
             on_street_name.emplace_back(trim_string(on_sn));
             cross_street_name.emplace_back(trim_string(cr_sn));
             off_street_name.emplace_back(trim_string(off_sn));
@@ -105,6 +104,7 @@ class Collisions {
             vehicle_type_code5.emplace_back(trim_string(vtc5));
 
             zip_code.emplace_back(string_to_int(zc));
+            borough.emplace_back(string_to_int(b));
             num_of_persons_injured.emplace_back(string_to_int(prsn_inj));
             num_of_persons_killed.emplace_back(string_to_int(prsn_kld));
             num_of_pedestrians_injured.emplace_back(string_to_int(pdstr_inj));
@@ -122,7 +122,7 @@ class Collisions {
         vector<string>& get_collision_id() { return collision_id; }
         vector<int>& get_crash_date() { return crash_date; }
         vector<int>& get_crash_time() { return crash_time; }
-        vector<string>& get_borough() { return borough; }
+        vector<int>& get_borough() { return borough; }
         vector<int>& get_zip_code() { return zip_code; }
         vector<float>& get_latitude() { return latitude; }
         vector<float>& get_longitude() { return longitude; }
@@ -151,7 +151,7 @@ class Collisions {
         string get_collision_id(size_t idx) { return (idx < collision_id.size()) ? collision_id[idx] : "N/A"; }
         int get_crash_date(size_t idx) { return (idx < crash_date.size()) ? crash_date[idx] : 0; }
         int get_crash_time(size_t idx) { return (idx < crash_time.size()) ? crash_time[idx] : 0; }
-        string get_borough(size_t idx) { return (idx < borough.size()) ? borough[idx] : "N/A"; }
+        int get_borough(size_t idx) { return (idx < borough.size()) ? borough[idx] : borough.size(); }
         int get_zip_code(size_t idx) { return (idx < zip_code.size()) ? zip_code[idx] : 0; }
         float get_latitude(size_t idx) { return (idx < latitude.size()) ? latitude[idx] : 0.0f; }
         float get_longitude(size_t idx) { return (idx < longitude.size()) ? longitude[idx] : 0.0f; }

@@ -15,8 +15,9 @@ vector<int> borough_encoded;
 
 int encode_borough(const string& b) {
     if (borough_map.find(b) == borough_map.end()) {
-        borough_map[b] = borough_map.size();  // Assign new integer ID
+        borough_map[b] = borough_map.size();
     }
+    
     return borough_map[b];
 }
 
@@ -381,7 +382,7 @@ vector<int> CollisionDataset::search_by_date_range(string sd, string ed) {
 
 vector<int> CollisionDataset::search_by_borough(string b) {
     vector<int> query_result;
-    int borough_id = encode_borough(b);  // Encode borough as integer
+    int borough_id = encode_borough(b);
 
     #pragma omp parallel
     {
@@ -389,7 +390,7 @@ vector<int> CollisionDataset::search_by_borough(string b) {
 
         #pragma omp for
         for (size_t i = 0; i < collisions.get_size(); i++) {
-            if (stoi(collisions.get_borough(i)) == borough_id) {  // Compare with encoded integer
+            if (collisions.get_borough(i) == borough_id) {
                 thread_results.emplace_back(i);
             }
         }

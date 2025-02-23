@@ -5,6 +5,7 @@
 #include "CollisionDataset.h"
 
 using namespace std;
+
 void printMemoryUsage() {
     struct rusage usage;
     if (getrusage(RUSAGE_SELF, &usage) == 0) {
@@ -18,7 +19,6 @@ void printMemoryUsage() {
         cerr << "Failed to get memory usage." << endl;
     }
 }
-
 
 int main() {
     string file_name = "../data/NYC_MVC.csv";
@@ -72,6 +72,8 @@ int main() {
     auto end_time_q5 = chrono::high_resolution_clock::now();
     cout << collisions_in_borough.size() << " collision records matched for borough " << borough << " in ";
     cout << chrono::duration<double>(end_time_q5 - start_time_q5).count() << " seconds." << endl;
+    
     printMemoryUsage();
+    
     return 0;
 }
