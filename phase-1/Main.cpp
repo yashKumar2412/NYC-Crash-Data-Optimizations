@@ -18,7 +18,7 @@ void printMemoryUsage() {
     }
 }
 int main() {
-    string file_name = "../data/dataset.csv";
+    string file_name = "../data/NYC_MVC.csv";
     CollisionDataset dataset;
 
     auto start_time_load = chrono::high_resolution_clock::now();
