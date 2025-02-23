@@ -4,9 +4,21 @@
 #include "CollisionDataset.h"
 
 using namespace std;
-
+void printMemoryUsage() {
+    struct rusage usage;
+    if (getrusage(RUSAGE_SELF, &usage) == 0) {
+        #ifdef __APPLE__  // MacOS returns bytes
+            double memoryMB = usage.ru_maxrss / (1024.0 * 1024.0);  // Convert bytes to MB
+        #else
+            double memoryMB = usage.ru_maxrss / 1024.0;  // Convert KB to MB (Linux)
+        #endif
+        cout << "Memory Usage: " << memoryMB << " MB" << endl;
+    } else {
+        cerr << "Failed to get memory usage." << endl;
+    }
+}
 int main() {
-    string file_name = "../data/NYC_MVC.csv";
+    string file_name = "../data/dataset.csv";
     CollisionDataset dataset;
 
     auto start_time_load = chrono::high_resolution_clock::now();
@@ -57,6 +69,6 @@ int main() {
     auto end_time_q5 = chrono::high_resolution_clock::now();
     cout << collisions_in_borough.size() << " collision records matched for borough " << borough << " in ";
     cout << chrono::duration<double>(end_time_q5 - start_time_q5).count() << " seconds." << endl;
-
+    printMemoryUsage();
     return 0;
 }
